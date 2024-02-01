@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Image } from 'react-native';
 import AuthContext from '../../contexts/AuthContext';
+import Util from '../../config/Util';
 
 export default function LoginScreen() {
 
@@ -13,6 +14,7 @@ export default function LoginScreen() {
         alert(login);
         alert(senha);
         // ACESSO A API, VERIFICA SE LOGIN E SENHA CORRETA E ME RETORNA O TOKEN
+        Util.setToken("tokendiasndadjaspidjaspida")
         setLogado(true);
     }
 

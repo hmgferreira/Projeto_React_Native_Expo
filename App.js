@@ -4,13 +4,26 @@ import PublicRoutes from './src/routes/PublicRoutes';
 import PrivateRoutes from './src/routes/PrivateRoutes';
 
 import AuthContext from './src/contexts/AuthContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import 'react-native-gesture-handler';
+import Util from './src/config/Util';
 
 export default function App() {
 
   const[logado, setLogado] = useState(false);
+
+  async function checaLogado() {
+    const token = await Util.getToken();
+    
+    if(token != null) {
+      setLogado(true);
+    }
+  }
+
+  useEffect(() => {
+    checaLogado();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ logado, setLogado }}>
