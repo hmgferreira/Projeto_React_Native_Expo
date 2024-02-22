@@ -3,6 +3,8 @@ import { Feather } from '@expo/vector-icons';
 import { TextH1, TextH2, Paragraf, TextH3 } from '../../components/Texts';
 import Cards from '../../components/Cards';
 import Banners from '../../components/Banners';
+import Api from '../../config/Api';
+import { useEffect } from 'react';
 
 export default function HomeScreen(props) {
 
@@ -19,6 +21,15 @@ export default function HomeScreen(props) {
             </View>
         )
     }
+
+    async function getData() {
+        const response = await Api.get("produtos");
+        
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
  
     return (
         <View style={styles.container}>

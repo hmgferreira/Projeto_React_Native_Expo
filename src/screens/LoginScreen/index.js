@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Image } from 'react-native';
 import AuthContext from '../../contexts/AuthContext';
 import Util from '../../config/Util';
+import Api from '../../config/Api';
 
 export default function LoginScreen() {
 
@@ -10,15 +11,18 @@ export default function LoginScreen() {
     const[login, setLogin] = useState('');
     const[senha, setSenha] = useState('');
 
-    function acessar() {
-        alert(login);
-        alert(senha);
-        // ACESSO A API, VERIFICA SE LOGIN E SENHA CORRETA E ME RETORNA O TOKEN
-        Util.setToken("tokendiasndadjaspidjaspida")
-        setLogado(true);
+    async function acessar() {
+        const response = await Api.post('login', {
+            login: login,
+            senha: senha
+        })
+        if(response.data.token) {
+            Util.setToken(response.data.token)
+            setLogado(true);
+        } else {
+            alert("Usuário ou senha incorreto!");
+        }
     }
-
-
     return (
         <View style={styles.container}>
             {/* <View style={{ width: '90%', height: '20%', borderRadius: '100%', left: -20, top: 60, backgroundColor: 'white', position: 'absolute' }}></View>
@@ -31,7 +35,7 @@ export default function LoginScreen() {
                 />
                 <Text>Login</Text>
                 <TextInput style={styles.input} placeholder='Login' onChangeText={value => setLogin(value)}/>
-                <TextInput style={styles.input} placeholder='Senha'  onChangeText={value => setSenha(value)}/>
+                <TextInput secureTextEntry={true} style={styles.input} placeholder='Senha'  onChangeText={value => setSenha(value)}/>
                 <Button
                     title="Acessar"
                     onPress={acessar}
